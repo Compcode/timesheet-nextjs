@@ -44,49 +44,6 @@ function parseWeekRange(range: string): string[] {
 /* ------------------------------------------------------------------ */
 /* GET: weekly timesheet                                              */
 /* ------------------------------------------------------------------ */
-// export async function GET(
-//   _req: Request,
-//   { params }: { params: Promise<{ week: string }> }
-// ) {
-//   const week = await params;
-//   const weekNumber = Number(week)
-
-//   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/week`)
-//   const weeks: WeekData[] = await res.json()
-
-//   const weekMeta = weeks.find(w => w.week === weekNumber)
-//   if (!weekMeta) {
-//     return NextResponse.json({ error: "Invalid week" }, { status: 404 })
-//   }
-
-//   const dates = parseWeekRange(weekMeta.date)
-
-//   const days: DayEntry[] = dates.map(date => {
-//     const tasks = timesheetStore[date] ?? []
-//     const dayTotal = tasks.reduce((sum, t) => sum + t.hours, 0)
-
-//     return {
-//       date,
-//       tasks,
-//       dayTotal,
-//     }
-//   })
-
-//   const weekTotal = days.reduce((sum, d) => sum + d.dayTotal, 0)
-
-//   const response: TimesheetData = {
-//     week: weekNumber,
-//     year: new Date(dates[0]).getFullYear(),
-//     days,
-//     totals: {
-//       week: weekTotal,
-//       target: 40,
-//       remaining: Math.max(0, 40 - weekTotal),
-//     },
-//   }
-
-//   return NextResponse.json(response)
-// }
 
 export async function GET(
   _req: Request,
