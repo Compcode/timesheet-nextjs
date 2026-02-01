@@ -59,7 +59,7 @@ export async function GET(
     )
   }
 
-  const res = await fetch('http://localhost:3000/api/week')
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/week`)
   const weeks: WeekData[] = await res.json()
 
   const weekMeta = weeks.find(w => w.week === weekNumber)
