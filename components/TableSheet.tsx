@@ -22,15 +22,7 @@ export function TableSheet({pageCount, currentPage} : TableSheetProps) {
     try {
       const res = await fetch("/api/week");
       const data: WeekData[] = await res.json();
-      // const weeksWithStatus = data.map((week) => ({
-      //   ...week,
-      //   status:
-      //     week.totalHrs >= 40
-      //       ? "COMPLETED"
-      //       : week.totalHrs < 40 && week.totalHrs > 0
-      //       ? "INCOMPLETE"
-      //       : "MISSING",
-      // }));
+
       const weeksWithStatus = data.map((week) => {
         const localTasks: LocalTasks[] = JSON.parse(localStorage.getItem(`week-${week.week}`) || "[]")
         const totalHrs = localTasks.length
