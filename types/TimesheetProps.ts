@@ -25,7 +25,7 @@ export interface TimesheetData {
 } 
 
 export interface LocalTasks {
-  id?: number
+  id?: string
   date: string
   project: string
   type: string

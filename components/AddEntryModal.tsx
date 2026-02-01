@@ -58,18 +58,20 @@ export default function AddEntryModal({ week, date, onAdded }: AddEntryModalProp
   const onSubmit = async (data: AddEntryFormValues) => {
     setIsSubmitting(true)
     try {
-      // 1️⃣ Save to API
       const response = await fetch(`/api/timesheets/${week}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date, ...data }),
       })
       if (!response.ok) throw new Error("Failed to add task")
+
+      const createdTask = await response.json()
+
       // Save to localStorage
       const key = `week-${week}`
       const existing: LocalTasks[] = JSON.parse(localStorage.getItem(key) || "[]")
       const newTask: LocalTasks = {
-        id: Date.now(),  // unique numeric ID
+        id: createdTask.id,
         date,
         project: data.project,
         type: data.type,
@@ -78,10 +80,10 @@ export default function AddEntryModal({ week, date, onAdded }: AddEntryModalProp
       }
       localStorage.setItem(key, JSON.stringify([...existing, newTask]))
 
+      await mutate(`/api/timesheets/${week}`)
+
       // Optionally trigger callback to refresh TableSheet
       if (onAdded) onAdded()
-
-      await mutate(`/api/timesheets/${week}`)
       setOpen(false)
       reset()
     } catch (error) {

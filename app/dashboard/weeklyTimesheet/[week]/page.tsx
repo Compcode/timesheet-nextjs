@@ -27,7 +27,7 @@ export default function WeeklyTimesheetPage() {
   }
 
   const totalHours = data.totals.week
-  const progressPercentage = Math.min(100, (totalHours / 40))
+  const progressPercentage = Math.min(100, (totalHours / 40)) * 100
   console.log(totalHours)
 
 

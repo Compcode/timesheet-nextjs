@@ -9,14 +9,15 @@ export default function EditDeleteDropdown({taskId, date, week} : EditDeleteProp
 
   const handleDelete = async () => {
     try {
+      const lsKey = `week-${week}`
+      const existing: LocalTasks[] = JSON.parse(localStorage.getItem(lsKey) || "[]")
+      const filtered = existing.filter(task => !(task.id === taskId && task.date === date))
+      localStorage.setItem(lsKey, JSON.stringify(filtered))
+
       await fetch(`/api/timesheets/${week}?date=${date}&taskId=${taskId}`, {
         method: "DELETE",
       })
-
-      const lsKey = `week-${week}`
-      const existing: LocalTasks[] = JSON.parse(localStorage.getItem(lsKey) || "[]")
-      const filtered = existing.filter(task => !(task.id === Number(taskId) && task.date === date))
-      localStorage.setItem(lsKey, JSON.stringify(filtered))
+      console.log("Task id is:", taskId)
 
       mutate(`/api/timesheets/${week}`)
     } catch (err) {
