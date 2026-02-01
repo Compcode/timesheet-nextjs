@@ -9,18 +9,15 @@ export default function EditDeleteDropdown({taskId, date, week} : EditDeleteProp
 
   const handleDelete = async () => {
     try {
-      // 1️⃣ Delete from API
       await fetch(`/api/timesheets/${week}?date=${date}&taskId=${taskId}`, {
         method: "DELETE",
       })
 
-      // 2️⃣ Delete from localStorage
       const lsKey = `week-${week}`
       const existing: LocalTasks[] = JSON.parse(localStorage.getItem(lsKey) || "[]")
       const filtered = existing.filter(task => !(task.id === Number(taskId) && task.date === date))
       localStorage.setItem(lsKey, JSON.stringify(filtered))
 
-      // 3️⃣ Refresh SWR
       mutate(`/api/timesheets/${week}`)
     } catch (err) {
       console.error("Failed to delete task:", err)
